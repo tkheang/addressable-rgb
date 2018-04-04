@@ -1,8 +1,8 @@
 #include <FastLED.h>
 
-// number of LEDs per strip
+// number of LEDs per strip (change as needed)
 #define NUM_LEDS    34
-// number of LED strips
+// number of LED strips (change as needed)
 #define NUM_STRIPS  4
 // brightness level 0-255
 #define BRIGHTNESS  128
@@ -16,6 +16,7 @@ CRGB leds[NUM_STRIPS][NUM_LEDS];
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
 
+// set up LED strips and reset before running loop()
 void setup() {
     // power-up safety delay
     delay(2000);
@@ -32,10 +33,10 @@ void setup() {
         FastLED.show();
       }
     }
-    Serial.begin(115200);
     delay(1000);
 }
 
+// main loop function
 void loop() {
     static uint8_t startIndex = 0;
     startIndex = startIndex + 1; /* motion speed */
@@ -43,6 +44,7 @@ void loop() {
     RainbowFade(startIndex);
 }
 
+// rotating pattern with all colors
 void RainbowWheel(uint8_t colorIndex) {
     for( int x = 0; x < NUM_LEDS - 1; x++) {
       leds[0][x] = ColorFromPalette(RainbowColors_p, colorIndex, BRIGHTNESS, currentBlending);
@@ -56,6 +58,7 @@ void RainbowWheel(uint8_t colorIndex) {
     delay(5);
 }
 
+// wave pattern with all colors
 void RainbowWave(uint8_t colorIndex) {
     for( int x = 0; x < NUM_LEDS; x++) {
       leds[0][x] = ColorFromPalette(RainbowColors_p, colorIndex, BRIGHTNESS, currentBlending);
@@ -66,6 +69,7 @@ void RainbowWave(uint8_t colorIndex) {
     delay(5);
 }
 
+// slowly fades through all the colors
 void RainbowFade(uint8_t colorIndex) {
     fill_solid(leds[0], NUM_LEDS, ColorFromPalette(RainbowColors_p, colorIndex, BRIGHTNESS, currentBlending));
     fill_solid(leds[1], NUM_LEDS, ColorFromPalette(RainbowColors_p, colorIndex, BRIGHTNESS, currentBlending));
@@ -74,6 +78,7 @@ void RainbowFade(uint8_t colorIndex) {
     delay(50);
 }
 
+// single color breathing mode
 void SingleBreathing() {
     fill_solid(leds[0], NUM_LEDS, CRGB::Green);
     fill_solid(leds[1], NUM_LEDS, CRGB::Green);
